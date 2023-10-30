@@ -8,8 +8,10 @@
       height="23"
       viewBox="0 0 100 100"
       @mouseover="handleMouseOver(item)"
+      @click="handleMouseClick(item)"
     >
       <polygon
+        class="polygon"
         ref="polygonRef"
         points="50,0 64,36 100,42 72,64 78,100 50,80 22,100 28,64 0,42 36,36"
         fill="none"
@@ -46,6 +48,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(["updateValue"]);
+
 const polygonRef = ref();
 
 const fill = (from, to) => {
@@ -55,8 +59,6 @@ const fill = (from, to) => {
 };
 
 const unfill = (from, to) => {
-  console.log(from);
-  console.log(to);
   for (let i = from; i < to; i++) {
     polygonRef.value[i].style.fill = "none";
   }
@@ -66,6 +68,13 @@ const handleMouseOver = (index) => {
   if (props.disabled || props.readOnly) return;
   fill(0, index);
   unfill(index, props.length);
+};
+
+const handleMouseClick = (index) => {
+  if (props.disabled || props.readOnly) return;
+  fill(0, index);
+  unfill(index, props.length);
+  emit("updateValue", index);
 };
 </script>
 
