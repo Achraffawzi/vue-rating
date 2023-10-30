@@ -9,6 +9,7 @@
       viewBox="0 0 100 100"
       @mouseover="handleMouseOver(item)"
       @click="handleMouseClick(item)"
+      @mouseleave="handleMouseLeave(item)"
     >
       <polygon
         class="polygon"
@@ -75,6 +76,12 @@ const handleMouseClick = (index) => {
   fill(0, index);
   unfill(index, props.length);
   emit("updateValue", index);
+};
+
+const handleMouseLeave = (index) => {
+  if (props.disabled || props.readOnly) return;
+  fill(0, props.value);
+  unfill(props.value, props.length);
 };
 </script>
 
